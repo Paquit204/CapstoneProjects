@@ -1,0 +1,104 @@
+/* finalApproved.css - Boxed list and premium hover effects */
+
+.approval-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.approval-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  transition: all 0.4s ease;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+body.dark-mode .approval-card {
+  background: #1e293b;
+  border-color: #334155;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.5);
+}
+
+.approval-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 24px 60px rgba(37, 99, 235, 0.2);
+  border-color: var(--primary);
+}
+
+.approval-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.thesis-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.status-badge {
+  padding: 0.5rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: #fffbeb;
+  color: #92400e;
+}
+
+.thesis-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+body.dark-mode .thesis-info {
+  background: #0f172a;
+}
+
+.info-item label {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 0.3rem;
+}
+
+.info-item span {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+body.dark-mode .info-item span {
+  color: #e2e8f0;
+}
+
+.approval-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.8rem 1.8rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  border: none;
+}
+
+.btn.primary { background: var(--primary); color: white; }
+.btn.primary:hover { background: var(--primary-hover); }
+
+.btn.secondary { background: #fee2e2; color: #b91c1c; }
+.btn.secondary:hover { background: #fecaca; }
+
+.btn.outline { background: transparent; border: 1px solid #cbd5e1; color: #64748b; }

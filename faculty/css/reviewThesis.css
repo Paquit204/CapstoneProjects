@@ -1,0 +1,155 @@
+/* css/reviewThesis.css - Elegant review theses page */
+
+.search-filter-bar {
+  display: flex;
+  gap: 1.2rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.search-wrapper {
+  flex: 1;
+  position: relative;
+  min-width: 280px;
+}
+
+.search-wrapper i {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.search-wrapper input {
+  width: 100%;
+  padding: 0.95rem 1rem 0.95rem 3.2rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.25s ease;
+}
+
+.search-wrapper input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+body.dark-mode .search-wrapper input {
+  background: #334155;
+  border-color: #475569;
+  color: #e2e8f0;
+}
+
+.filter-select {
+  padding: 0.95rem 1.2rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 1rem;
+  min-width: 200px;
+}
+
+body.dark-mode .filter-select {
+  background: #334155;
+  border-color: #475569;
+  color: #e2e8f0;
+}
+
+.thesis-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.thesis-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.8rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .thesis-card {
+  background: #1e293b;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.thesis-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+}
+
+.thesis-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.8rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.thesis-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #1e40af;
+}
+
+body.dark-mode .thesis-title {
+  color: #93c5fd;
+}
+
+.status {
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.status.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+body.dark-mode .status.pending {
+  background: #78350f;
+  color: #fcd34d;
+}
+
+.thesis-student {
+  font-size: 1.05rem;
+  color: #475569;
+  margin-bottom: 0.6rem;
+}
+
+body.dark-mode .thesis-student {
+  color: #cbd5e1;
+}
+
+.thesis-date {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin-bottom: 1.4rem;
+}
+
+body.dark-mode .thesis-date {
+  color: #94a3b8;
+}
+
+.thesis-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .search-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filter-select {
+    width: 100%;
+  }
+}

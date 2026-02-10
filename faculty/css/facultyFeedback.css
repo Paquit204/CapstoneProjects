@@ -1,0 +1,130 @@
+/* css/facultyFeedback.css - Elegant feedback page */
+
+.feedback-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.8rem;
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .stat-card {
+  background: #1e293b;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+}
+
+.stat-icon {
+  font-size: 2.8rem;
+  color: #3b82f6;
+  margin-bottom: 1rem;
+}
+
+body.dark-mode .stat-icon {
+  color: #60a5fa;
+}
+
+.stat-value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 0.5rem;
+}
+
+body.dark-mode .stat-value {
+  color: #93c5fd;
+}
+
+.stat-label {
+  font-size: 1.1rem;
+  color: #64748b;
+}
+
+body.dark-mode .stat-label {
+  color: #94a3b8;
+}
+
+.feedback-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.feedback-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .feedback-card {
+  background: #1e293b;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.feedback-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+}
+
+.feedback-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.feedback-header h3 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #1e40af;
+}
+
+body.dark-mode .feedback-header h3 {
+  color: #93c5fd;
+}
+
+.feedback-date {
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+body.dark-mode .feedback-date {
+  color: #94a3b8;
+}
+
+.feedback-text {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
+  color: #475569;
+}
+
+body.dark-mode .feedback-text {
+  color: #cbd5e1;
+}
+
+.feedback-student {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #3b82f6;
+}
+
+body.dark-mode .feedback-student {
+  color: #60a5fa;
+}

@@ -1,0 +1,94 @@
+/* deanDashboard.css - Unifying the boxed layout and hover animations */
+
+/* Welcome Card - Centralized and Boxed */
+.welcome-card {
+  background: white;
+  border-radius: 20px;
+  padding: 3rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 10px 36px rgba(0,0,0,0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  text-align: center;
+}
+
+body.dark-mode .welcome-card {
+  background: #1e293b;
+  border-color: #334155;
+  box-shadow: 0 10px 36px rgba(0,0,0,0.4);
+}
+
+.welcome-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 50px rgba(37, 99, 235, 0.2);
+  border-color: var(--primary);
+}
+
+.welcome-card h2 {
+  font-size: 2.4rem;
+  color: var(--primary);
+  margin-bottom: 0.8rem;
+}
+
+/* Stats Grid Hover Effects */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  transition: all 0.4s ease;
+  border: 1px solid transparent;
+}
+
+body.dark-mode .stat-card {
+  background: #1e293b;
+}
+
+.stat-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 24px 60px rgba(251, 191, 36, 0.2);
+  border-color: #fbbf24;
+}
+
+.stat-icon {
+  font-size: 3rem;
+  color: #fbbf24;
+  margin-bottom: 1.5rem;
+}
+
+.stat-value {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+body.dark-mode .stat-value {
+  color: #f1f5f9;
+}
+
+/* Pending Card Styling */
+.pending-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  border-left: 6px solid #fbbf24;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  transition: all 0.35s ease;
+}
+
+body.dark-mode .pending-card {
+  background: #1e293b;
+}
+
+.pending-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+}
