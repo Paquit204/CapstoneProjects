@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Student Dashboard - Theses Archiving System</title>
+  <title>Notifications - Theses Archiving System</title>
   <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/student_dashboard.css">
+  <link rel="stylesheet" href="css/notifications.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -19,19 +19,19 @@
       </div>
 
       <nav class="sidebar-nav">
-        <a href="student_dashboard.html" class="nav-link active">
+        <a href="student_dashboard.php" class="nav-link">
           <i class="fas fa-home"></i> Dashboard
         </a>
-        <a href="profile.html" class="nav-link">
+        <a href="profile.php" class="nav-link">
           <i class="fas fa-user"></i> Profile
         </a>
-        <a href="projects.html" class="nav-link">
+        <a href="projects.php" class="nav-link">
           <i class="fas fa-folder-open"></i> My Projects
         </a>
-        <a href="archived.html" class="nav-link">
+        <a href="archived.php" class="nav-link">
           <i class="fas fa-archive"></i> Archived Theses
         </a>
-        <a href="notifications.html" class="nav-link">
+        <a href="notifications.php" class="nav-link active">
           <i class="fas fa-bell"></i> Notifications
           <span class="badge">4</span>
         </a>
@@ -54,49 +54,47 @@
 
     <main class="main-content">
       <header class="topbar">
-        <h1>Student Dashboard</h1>
+        <h1>Notifications</h1>
         <div class="user-info">
           <span class="user-name">Mark Kiven Gie</span>
           <div class="avatar">MK</div>
         </div>
       </header>
 
-      <div class="welcome-section">
-        <h2>Welcome back, Mark!</h2>
-        <p>Here’s a quick overview of your thesis progress and updates.</p>
-      </div>
+      <div class="notifications-container">
 
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon"><i class="fas fa-book"></i></div>
-          <div class="stat-value">1</div>
-          <div class="stat-label">Active Thesis</div>
+        <div class="notification-item unread">
+          <div class="notif-icon"><i class="fas fa-file-signature"></i></div>
+          <div class="notif-content">
+            <p><strong>Dr. Anna Reyes</strong> uploaded revision comments on Chapter 4 & 5</p>
+            <span class="notif-time">Today • 7:42 AM</span>
+          </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon"><i class="fas fa-archive"></i></div>
-          <div class="stat-value">2</div>
-          <div class="stat-label">Archived Theses</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon"><i class="fas fa-tasks"></i></div>
-          <div class="stat-value">82%</div>
-          <div class="stat-label">Overall Progress</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon"><i class="fas fa-bell"></i></div>
-          <div class="stat-value">4</div>
-          <div class="stat-label">New Notifications</div>
-        </div>
-      </div>
 
-      <div class="quick-links">
-        <h3>Quick Actions</h3>
-        <div class="links-grid">
-          <a href="projects.html" class="quick-btn">View My Projects</a>
-          <a href="profile.html" class="quick-btn">Update Profile</a>
-          <a href="notifications.html" class="quick-btn">Check Notifications</a>
-          <a href="archived.html" class="quick-btn">View Archived Works</a>
+        <div class="notification-item">
+          <div class="notif-icon"><i class="fas fa-calendar-check"></i></div>
+          <div class="notif-content">
+            <p>Final defense schedule confirmed: <strong>March 15, 2026 – 10:00 AM</strong></p>
+            <span class="notif-time">February 08, 2026</span>
+          </div>
         </div>
+
+        <div class="notification-item">
+          <div class="notif-icon"><i class="fas fa-exclamation-triangle"></i></div>
+          <div class="notif-content">
+            <p>Reminder: Submit final manuscript before <strong>February 20, 2026</strong></p>
+            <span class="notif-time">February 05, 2026</span>
+          </div>
+        </div>
+
+        <div class="notification-item">
+          <div class="notif-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="notif-content">
+            <p>Proposal defense (October 2025) marked as <strong>Passed</strong></p>
+            <span class="notif-time">November 12, 2025</span>
+          </div>
+        </div>
+
       </div>
     </main>
   </div>

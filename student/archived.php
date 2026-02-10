@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Notifications - Theses Archiving System</title>
+  <title>Archived Theses - Theses Archiving System</title>
   <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/notifications.css">
+  <link rel="stylesheet" href="css/archived.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -19,19 +19,19 @@
       </div>
 
       <nav class="sidebar-nav">
-        <a href="student_dashboard.html" class="nav-link">
+        <a href="student_dashboard.php" class="nav-link">
           <i class="fas fa-home"></i> Dashboard
         </a>
-        <a href="profile.html" class="nav-link">
+        <a href="profile.php" class="nav-link">
           <i class="fas fa-user"></i> Profile
         </a>
-        <a href="projects.html" class="nav-link">
+        <a href="projects.php" class="nav-link">
           <i class="fas fa-folder-open"></i> My Projects
         </a>
-        <a href="archived.html" class="nav-link">
+        <a href="archived.php" class="nav-link active">
           <i class="fas fa-archive"></i> Archived Theses
         </a>
-        <a href="notifications.html" class="nav-link active">
+        <a href="notifications.php" class="nav-link">
           <i class="fas fa-bell"></i> Notifications
           <span class="badge">4</span>
         </a>
@@ -54,44 +54,39 @@
 
     <main class="main-content">
       <header class="topbar">
-        <h1>Notifications</h1>
+        <h1>Archived Theses</h1>
         <div class="user-info">
           <span class="user-name">Mark Kiven Gie</span>
           <div class="avatar">MK</div>
         </div>
       </header>
 
-      <div class="notifications-container">
+      <div class="archived-container">
 
-        <div class="notification-item unread">
-          <div class="notif-icon"><i class="fas fa-file-signature"></i></div>
-          <div class="notif-content">
-            <p><strong>Dr. Anna Reyes</strong> uploaded revision comments on Chapter 4 & 5</p>
-            <span class="notif-time">Today • 7:42 AM</span>
+        <div class="archive-card">
+          <h2>Mobile-Based Student Attendance with Face Recognition</h2>
+          <div class="archive-meta">
+            <span class="grade">Grade: 1.50</span>
+            <span class="date">March 31, 2025</span>
+            <span class="pages">68 pages</span>
+          </div>
+          <div class="archive-actions">
+            <a href="#" class="btn primary">View PDF</a>
+            <a href="#" class="btn">Download Certificate</a>
+            <a href="#" class="btn secondary">View Abstract</a>
           </div>
         </div>
 
-        <div class="notification-item">
-          <div class="notif-icon"><i class="fas fa-calendar-check"></i></div>
-          <div class="notif-content">
-            <p>Final defense schedule confirmed: <strong>March 15, 2026 – 10:00 AM</strong></p>
-            <span class="notif-time">February 08, 2026</span>
+        <div class="archive-card">
+          <h2>Web Portal for Barangay Health Record Management</h2>
+          <div class="archive-meta">
+            <span class="grade">Grade: 1.75</span>
+            <span class="date">October 15, 2024</span>
+            <span class="pages">54 pages</span>
           </div>
-        </div>
-
-        <div class="notification-item">
-          <div class="notif-icon"><i class="fas fa-exclamation-triangle"></i></div>
-          <div class="notif-content">
-            <p>Reminder: Submit final manuscript before <strong>February 20, 2026</strong></p>
-            <span class="notif-time">February 05, 2026</span>
-          </div>
-        </div>
-
-        <div class="notification-item">
-          <div class="notif-icon"><i class="fas fa-check-circle"></i></div>
-          <div class="notif-content">
-            <p>Proposal defense (October 2025) marked as <strong>Passed</strong></p>
-            <span class="notif-time">November 12, 2025</span>
+          <div class="archive-actions">
+            <a href="#" class="btn primary">View PDF</a>
+            <a href="#" class="btn secondary">View Abstract</a>
           </div>
         </div>
 

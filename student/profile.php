@@ -19,19 +19,19 @@
       </div>
 
       <nav class="sidebar-nav">
-        <a href="student_dashboard.html" class="nav-link">
+        <a href="student_dashboard.php" class="nav-link">
           <i class="fas fa-home"></i> Dashboard
         </a>
-        <a href="profile.html" class="nav-link active">
+        <a href="profile.php" class="nav-link active">
           <i class="fas fa-user"></i> Profile
         </a>
-        <a href="projects.html" class="nav-link">
+        <a href="projects.php" class="nav-link">
           <i class="fas fa-folder-open"></i> My Projects
         </a>
-        <a href="archived.html" class="nav-link">
+        <a href="archived.php" class="nav-link">
           <i class="fas fa-archive"></i> Archived Theses
         </a>
-        <a href="notifications.html" class="nav-link">
+        <a href="notifications.php" class="nav-link">
           <i class="fas fa-bell"></i> Notifications
           <span class="badge">4</span>
         </a>

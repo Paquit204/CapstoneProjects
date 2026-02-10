@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Archived Theses - Theses Archiving System</title>
+  <title>Student Dashboard - Theses Archiving System</title>
   <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/archived.css">
+  <link rel="stylesheet" href="css/student_dashboard.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -19,19 +19,19 @@
       </div>
 
       <nav class="sidebar-nav">
-        <a href="student_dashboard.html" class="nav-link">
+        <a href="student_dashboard.php" class="nav-link active">
           <i class="fas fa-home"></i> Dashboard
         </a>
-        <a href="profile.html" class="nav-link">
+        <a href="profile.php" class="nav-link">
           <i class="fas fa-user"></i> Profile
         </a>
-        <a href="projects.html" class="nav-link">
+        <a href="projects.php" class="nav-link">
           <i class="fas fa-folder-open"></i> My Projects
         </a>
-        <a href="archived.html" class="nav-link active">
+        <a href="archived.php" class="nav-link">
           <i class="fas fa-archive"></i> Archived Theses
         </a>
-        <a href="notifications.html" class="nav-link">
+        <a href="notifications.php" class="nav-link">
           <i class="fas fa-bell"></i> Notifications
           <span class="badge">4</span>
         </a>
@@ -54,42 +54,49 @@
 
     <main class="main-content">
       <header class="topbar">
-        <h1>Archived Theses</h1>
+        <h1>Student Dashboard</h1>
         <div class="user-info">
           <span class="user-name">Mark Kiven Gie</span>
           <div class="avatar">MK</div>
         </div>
       </header>
 
-      <div class="archived-container">
+      <div class="welcome-section">
+        <h2>Welcome back, Mark!</h2>
+        <p>Here’s a quick overview of your thesis progress and updates.</p>
+      </div>
 
-        <div class="archive-card">
-          <h2>Mobile-Based Student Attendance with Face Recognition</h2>
-          <div class="archive-meta">
-            <span class="grade">Grade: 1.50</span>
-            <span class="date">March 31, 2025</span>
-            <span class="pages">68 pages</span>
-          </div>
-          <div class="archive-actions">
-            <a href="#" class="btn primary">View PDF</a>
-            <a href="#" class="btn">Download Certificate</a>
-            <a href="#" class="btn secondary">View Abstract</a>
-          </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-book"></i></div>
+          <div class="stat-value">1</div>
+          <div class="stat-label">Active Thesis</div>
         </div>
-
-        <div class="archive-card">
-          <h2>Web Portal for Barangay Health Record Management</h2>
-          <div class="archive-meta">
-            <span class="grade">Grade: 1.75</span>
-            <span class="date">October 15, 2024</span>
-            <span class="pages">54 pages</span>
-          </div>
-          <div class="archive-actions">
-            <a href="#" class="btn primary">View PDF</a>
-            <a href="#" class="btn secondary">View Abstract</a>
-          </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-archive"></i></div>
+          <div class="stat-value">2</div>
+          <div class="stat-label">Archived Theses</div>
         </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-tasks"></i></div>
+          <div class="stat-value">82%</div>
+          <div class="stat-label">Overall Progress</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-bell"></i></div>
+          <div class="stat-value">4</div>
+          <div class="stat-label">New Notifications</div>
+        </div>
+      </div>
 
+      <div class="quick-links">
+        <h3>Quick Actions</h3>
+        <div class="links-grid">
+          <a href="projects.php" class="quick-btn">View My Projects</a>
+          <a href="profile.php" class="quick-btn">Update Profile</a>
+          <a href="notifications.php" class="quick-btn">Check Notifications</a>
+          <a href="archived.php" class="quick-btn">View Archived Works</a>
+        </div>
       </div>
     </main>
   </div>
