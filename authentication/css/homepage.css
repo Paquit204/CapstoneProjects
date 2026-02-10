@@ -1,0 +1,333 @@
+ 
+:root {
+    --navy: #0f172a;
+    --navy-dark: #020617;
+    --gold: #fbbf24;
+    --gold-dark: #d97706;
+    --blue: #3b82f6;
+    --gray: #64748b;
+    --light-gray: #94a3b8;
+    --text-light: #e2e8f0;
+    --card-bg: #ffffff;
+    --radius: 12px;
+    --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    --shadow-hover: 0 12px 36px rgba(251,191,36,0.18);
+    --success: #10b981;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #f8fafc;
+    color: var(--navy);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    background: var(--navy);
+    padding: 1.2rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--gold);
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.logo .material-symbols-outlined {
+    font-size: 2.2rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+}
+
+.nav-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--gold);
+}
+
+/* Hero - bookshelf image kept */
+.hero {
+    position: relative;
+    min-height: 50vh;
+    background: url('images/background.jpg') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(15,23,42,0.75);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+}
+
+.hero h1 {
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    color: #cbd5e1;
+    margin-bottom: 2.5rem;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+}
+
+/* Buttons */
+.btn {
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: var(--gold);
+    color: var(--navy);
+}
+
+.btn-primary:hover {
+    background: var(--gold-dark);
+    transform: translateY(-3px);
+}
+
+/* Stats - with hover boxes */
+.stats {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    background: white;
+    padding: 2rem 3rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+    min-width: 240px;
+    transition: all 0.3s;
+}
+
+.stat-box:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+
+.stat-icon {
+    font-size: 3rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.stat-label {
+    font-size: 1.1rem;
+    color: var(--gray);
+}
+
+/* Recent Submissions */
+.recent-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.view-all {
+    color: var(--gold);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.view-all:hover {
+    color: var(--gold-dark);
+}
+
+.recent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
+}
+
+.thesis-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 1.8rem;
+    box-shadow: var(--shadow);
+    position: relative;
+    transition: all 0.35s;
+}
+
+.thesis-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+
+.approved-badge {
+    background: var(--success);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.thesis-year {
+    position: absolute;
+    top: 1.8rem;
+    right: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray);
+    font-size: 0.95rem;
+}
+
+.thesis-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+}
+
+.thesis-author {
+    font-size: 1rem;
+    color: var(--gray);
+    margin-bottom: 1rem;
+}
+
+.thesis-desc {
+    font-size: 0.97rem;
+    color: #4b5563;
+    margin-bottom: 1.2rem;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+}
+
+.tag {
+    background: #f3f4f6;
+    color: #6b7280;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+}
+
+.arrow {
+    position: absolute;
+    bottom: 1.8rem;
+    right: 1.8rem;
+    color: var(--gray);
+    font-size: 1.4rem;
+    transition: all 0.3s;
+}
+
+.thesis-card:hover .arrow {
+    color: var(--blue);
+    transform: translateX(5px);
+}
+
+/* Footer */
+footer {
+    background: var(--navy);
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #94a3b8;
+    margin-top: 4rem;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .recent-grid { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+    .stats { gap: 2rem; }
+}
+
+@media (max-width: 768px) {
+    .hero h1 { font-size: 2.8rem; }
+    .stats { flex-direction: column; gap: 2rem; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .recent-grid { grid-template-columns: 1fr; }
+    .nav-container { flex-direction: column; gap: 1rem; }
+    .nav-links { flex-direction: column; text-align: center; gap: 0.8rem; }
+}
+
+@media (max-width: 480px) {
+    .stat-box { padding: 1.5rem 2rem; }
+    .thesis-card { padding: 1.5rem; }
+}
+ 

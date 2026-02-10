@@ -1,0 +1,82 @@
+.archived-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  margin-top: 1.5rem;
+}
+
+.archive-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.8rem 2rem;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.07);
+  transition: all 0.18s ease;
+}
+
+body.dark-mode .archive-card {
+  background: #1e293b;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+}
+
+.archive-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.11);
+}
+
+.archive-card h2 {
+  margin: 0 0 1.1rem 0;
+  font-size: 1.26rem;
+}
+
+.archive-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem 1.8rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+body.dark-mode .archive-meta {
+  color: #cbd5e1;
+}
+
+.grade {
+  font-weight: 600;
+  color: #059669;
+}
+
+body.dark-mode .grade {
+  color: #34d399;
+}
+
+.date {
+  color: #64748b;
+}
+
+body.dark-mode .date {
+  color: #94a3b8;
+}
+
+.pages {
+  color: #64748b;
+}
+
+body.dark-mode .pages {
+  color: #94a3b8;
+}
+
+.archive-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .archive-actions {
+    flex-direction: column;
+  }
+  .archive-actions .btn {
+    width: 100%;
+  }
+}
