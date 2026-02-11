@@ -1,0 +1,127 @@
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box
+}
+
+body{
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  background:#eef1f4;
+  color:#111827;
+}
+
+.container{
+  max-width:1480px;
+  margin:16px auto;
+  background:#fff;
+  border-radius:10px;
+  padding:32px 36px 40px;
+  border:1px solid #e5e7eb;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+h3{
+  font-size:42px;
+  font-weight:750;
+  color:#0f172a;
+}
+
+.tabs{
+  display:inline-flex;
+  border-radius:10px;
+  overflow:hidden;
+  border:1.5px solid #111;
+  background:#fff;
+}
+
+.tab{
+  padding:10px 16px;
+  font-weight:650;
+  font-size:18px;
+  text-decoration:none;
+  border-right:1.5px solid #111;
+  background:#fff;
+}
+
+.tab:last-child{border-right:0}
+
+.tab-all{ color:#111827; }
+.tab-verified{ color:#0b7a3b; }
+.tab-not{ color:#f59e0b; }
+
+.tab-all.active{
+  background:#111827;
+  color:#fff;
+}
+.tab-verified.active{
+  background:#0b7a3b;
+  color:#fff;
+}
+.tab-not.active{
+  background:#fff;
+  color:#f59e0b;
+}
+
+.table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.table th,.table td{
+  border:1px solid #d1d5db;
+  padding:16px;
+  font-size:18px;
+}
+
+.table thead th{
+  background:#1f252b;
+  color:#fff;
+  text-align:left;
+  font-weight:750;
+}
+
+.col-num{width:120px}
+.col-status{width:280px}
+.col-action{width:220px}
+
+.empty{
+  text-align:center;
+  padding:22px;
+  font-size:20px;
+  background:#f3f4f6;
+}
+
+.badge{
+  display:inline-block;
+  padding:6px 12px;
+  border-radius:8px;
+  font-weight:700;
+}
+.ok{background:#0b7a3b;color:#fff}
+.warn{background:#f59e0b;color:#111}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  font-weight:650;
+  border-radius:8px;
+  color:#fff;
+}
+.btn-sm{height:36px;padding:0 14px;font-size:16px}
+
+.green{background:#0b7a3b}
+.gray{background:#6b7280}
+
+.back-btn{
+  margin-top:20px;
+  padding:12px 18px;
+}

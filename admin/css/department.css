@@ -1,0 +1,117 @@
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  background:#eef1f4;
+  color:#111827;
+}
+
+/* MAIN CARD */
+.container{
+  max-width:1480px;
+  margin:16px auto;
+  background:#fff;
+  border-radius:10px;
+  padding:32px 36px 40px;
+  border:1px solid #e5e7eb;
+}
+
+/* TITLE */
+.page-title{
+  font-size:42px;
+  font-weight:750;
+  margin-bottom:22px;
+}
+
+/* FORM */
+.form-row{
+  display:flex;
+  gap:14px;
+  margin-bottom:24px;
+}
+
+.input{
+  flex:1;
+  height:48px;
+  padding:0 16px;
+  font-size:18px;
+  border-radius:8px;
+  border:1px solid #d1d5db;
+}
+
+.input:focus{
+  outline:none;
+  border-color:#2563eb;
+}
+
+/* BUTTONS */
+.btn{
+  border:0;
+  border-radius:8px;
+  font-weight:650;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.btn-primary{
+  height:48px;
+  width:260px;
+  background:#0d6efd;
+  color:#fff;
+  font-size:18px;
+}
+
+.btn-danger{
+  background:#dc3545;
+  color:#fff;
+}
+
+.btn-gray{
+  background:#6b7280;
+  color:#fff;
+}
+
+.btn-sm{
+  height:36px;
+  padding:0 14px;
+  font-size:16px;
+}
+
+/* TABLE */
+.table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.table th,
+.table td{
+  border:1px solid #d1d5db;
+  padding:16px;
+  font-size:18px;
+}
+
+.table thead th{
+  background:#1f252b;
+  color:#fff;
+  text-align:left;
+}
+
+.col-num{width:120px}
+.col-action{width:220px}
+
+.empty{
+  text-align:center;
+  padding:22px;
+  font-size:20px;
+  background:#f3f4f6;
+}
+
+/* BACK BUTTON */
+.back-btn{
+  margin-top:20px;
+  padding:12px 18px;
+}
