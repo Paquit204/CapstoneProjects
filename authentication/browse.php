@@ -207,12 +207,5 @@ $is_logged_in = isset($_SESSION['username']);
             <button class="page-btn">Next →</button>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; 2025 Thesis Archiving System. All rights reserved.</p>
-        </div>
-    </footer>
 </body>
 </html>

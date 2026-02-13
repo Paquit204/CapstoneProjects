@@ -54,7 +54,6 @@ $pageTitle = "Final Approval";
     </header>
 
     <div class="approval-list">
-      <!-- Thesis Item -->
       <div class="approval-card">
         <div class="approval-header">
           <h3 class="thesis-title">Smart Waste Bin Monitoring with IoT & Mobile App</h3>
@@ -83,7 +82,6 @@ $pageTitle = "Final Approval";
         </div>
       </div>
       
-      <!-- Another Item Example -->
       <div class="approval-card">
         <div class="approval-header">
           <h3 class="thesis-title">Blockchain-based Secure Grading System</h3>

@@ -4,31 +4,64 @@ session_start();
 $message = "";
 $message_type = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST['username'] ?? '');
-    $password = trim($_POST['password'] ?? '');
+    $password = $_POST['password'] ?? '';
 
-    if (!$username || !$password) {
+    if ($username === '' || $password === '') {
         $message = "Username and password are required.";
         $message_type = "error";
     } else {
-        // TODO: Replace with actual database authentication
-        $valid_user = "admin";
-        $valid_pass = "1234";
-
-        if ($username === $valid_user && $password === $valid_pass) {
-            $_SESSION['username'] = $username;
-            $_SESSION['login_time'] = date('Y-m-d H:i:s');
-            $message = "✓ Login successful! Redirecting...";
-            $message_type = "success";
-            echo "<script>
-                setTimeout(function(){
-                    window.location.href='student-dashboard.php';
-                }, 1500);
-            </script>";
-        } else {
-            $message = "Invalid username or password.";
+        $conn = new mysqli("localhost", "root", "", "thesiss_archiving");
+        if ($conn->connect_error) {
+            $message = "Connection failed: " . $conn->connect_error;
             $message_type = "error";
+        } else {
+            $conn->set_charset("utf8mb4");
+
+            $stmt = $conn->prepare("SELECT user_id, role_id, username, password, status FROM user WHERE username = ? OR email = ? LIMIT 1");
+            $stmt->bind_param("ss", $username, $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($row = $result->fetch_assoc()) {
+                $status = strtolower(trim($row['status'] ?? ''));
+
+                if ($status === 'pending') {
+                    $message = "Your account is still pending approval.";
+                    $message_type = "error";
+                } elseif ($status === 'inactive' || $status === 'disabled') {
+                    $message = "Your account is inactive. Contact admin.";
+                    $message_type = "error";
+                } else {
+                    if (password_verify($password, $row['password'])) {
+                        $_SESSION['user_id'] = (int)$row['user_id'];
+                        $_SESSION['username'] = $row['username'];
+                        $_SESSION['role_id'] = (int)$row['role_id'];
+                        $_SESSION['login_time'] = date('Y-m-d H:i:s');
+
+                        $message = "✓ Login successful! Redirecting...";
+                        $message_type = "success";
+
+                        $redirect = "/CapstoneProjects/student/student_dashboard.php";
+                        if ((int)$row['role_id'] === 1) $redirect = "/CapstoneProjects/admin/admindashboard.php";
+                        elseif ((int)$row['role_id'] === 2) $redirect = "/CapstoneProjects/faculty/facultyDashboard.php";
+                        elseif ((int)$row['role_id'] === 3) $redirect = "/CapstoneProjects/student/student_dashboard.php";
+                       elseif ((int)$row['role_id'] === 4) $redirect = "/CapstoneProjects/dean/deanDashboard.php";
+                        header("Location: $redirect");
+                        exit;
+                    } else {
+                        $message = "Invalid username/email or password.";
+                        $message_type = "error";
+                    }
+                }
+            } else {
+                $message = "Invalid username/email or password.";
+                $message_type = "error";
+            }
+
+            $stmt->close();
+            $conn->close();
         }
     }
 }
@@ -39,7 +72,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Thesis Archiving System</title>
-    <!-- Google Fonts + Material Symbols -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -47,12 +79,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="homepage.php" class="logo">
                 <span class="material-symbols-outlined">book</span>
-                ThesisVault
+                   Web-Based Thesis Archiving System
             </a>
             <ul class="nav-links">
                 <li><a href="homepage.php">Home</a></li>
@@ -141,34 +172,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; 2025 Thesis Archiving System. All rights reserved.</p>
-        </div>
-    </footer>
-
     <script>
-        // Quick login function (redirections fixed to .php)
         function quickLogin(role) {
             switch(role) {
                 case 'student':
-                    window.location.href = 'student-dashboard.php';
+                    window.location.href = '/CapstoneProjects/student/student_dashboard.php';
                     break;
                 case 'faculty':
-                    window.location.href = 'faculty-dashboard.php';
+                    window.location.href = '/CapstoneProjects/faculty/facultyDashboard.php';
                     break;
                 case 'dean':
-                    window.location.href = 'dean-dashboard.php';
+                    window.location.href = '/CapstoneProjects/dean/deanDashboard.php';
                     break;
                 case 'admin':
-                    window.location.href = 'admin-dashboard.php';
+                    window.location.href = '/CapstoneProjects/admin/admindashboard.php';
                     break;
             }
         }
-
-        // Show/Hide Password - Login
         const loginToggle = document.getElementById('login-toggle');
         const loginPass = document.getElementById('password');
 

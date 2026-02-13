@@ -51,21 +51,22 @@ body.dark-mode .profile-card {
 }
 
 .edit-btn {
-  margin-top: 1.5rem;
-  padding: 0.8rem 1.6rem;
-  background: #3b82f6;
-  color: white;
+  display: inline-block;      
+  text-decoration: none;     
+  text-align: center;
+}
+a.edit-btn {
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
 }
 
-.edit-btn:hover {
+/* Dark mode support */
+body.dark-mode .edit-btn {
   background: #2563eb;
 }
 
+body.dark-mode .edit-btn:hover {
+  background: #1d4ed8;
+}
 .profile-card.stats h3 {
   margin-bottom: 1.5rem;
 }

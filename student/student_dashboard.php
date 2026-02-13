@@ -46,9 +46,9 @@
             <span class="slider"></span>
           </label>
         </div>
-        <a href="#" class="logout-btn">
-          <i class="fas fa-sign-out-alt"></i> Logout
-        </a>
+     <a href="/CapstoneProjects/student/logout.php" class="logout-btn">
+       <i class="fas fa-sign-out-alt"></i> Logout
+           </a>
       </div>
     </aside>
 

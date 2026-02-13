@@ -79,7 +79,8 @@
             <p><strong>Joined:</strong> August 2021</p>
           </div>
 
-          <button class="edit-btn">Edit Profile</button>
+          <button class="edit-btn" onclick="window.location.href='edit_profile.php'">Edit Profile</button>
+
         </div>
 
         <div class="profile-card stats">

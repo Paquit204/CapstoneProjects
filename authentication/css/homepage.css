@@ -25,7 +25,6 @@ body {
     min-height: 100vh;
 }
 
-/* Navbar */
 .navbar {
     background: var(--navy);
     padding: 1.2rem 0;
@@ -76,7 +75,6 @@ body {
     color: var(--gold);
 }
 
-/* Hero - bookshelf image kept */
 .hero {
     position: relative;
     min-height: 50vh;
@@ -180,7 +178,6 @@ body {
     color: var(--gray);
 }
 
-/* Recent Submissions */
 .recent-section {
     max-width: 1400px;
     margin: 0 auto;

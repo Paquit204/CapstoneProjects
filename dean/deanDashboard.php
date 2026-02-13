@@ -1,5 +1,4 @@
 <?php
-// deanDashboard.php
 $pageTitle = "Dean Dashboard";
 ?>
 
