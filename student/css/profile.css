@@ -26,22 +26,26 @@ body.dark-mode {
   color: var(--text-light);
 }
 
+/* ✅ Center main area */
 .main-content {
-  margin-left: 260px;
-  padding: 2rem 2rem;             /* balanced padding */
+  display: flex;
+  justify-content: center;   /* horizontal center */
+  align-items: center;       /* vertical center */
   min-height: 100vh;
-  transition: margin-left 0.3s ease;
-  box-sizing: border-box;
+  position: relative;        /* for mobile button if needed */
 }
 
+/* ✅ Container grid */
 .profile-container {
-  max-width: 1200px;               /* ← same limit as edit page */
-  margin: 0 auto;                  /* ← centers the content block */
+  max-width: 1200px;         /* same limit as edit page */
+  width: 100%;
+  margin: 0 auto;            /* centers the content block */
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 2rem;
 }
 
+/* ✅ Card */
 .profile-card {
   background: var(--card-bg);
   border-radius: var(--radius);
@@ -54,7 +58,34 @@ body.dark-mode .profile-card {
   box-shadow: 0 6px 24px rgba(0,0,0,0.35);
 }
 
-/* Avatar section */
+/* =========================
+   ✅ MERGED: Title above image
+   ========================= */
+.card-title {
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.10);
+}
+
+body.dark-mode .card-title {
+  border-bottom-color: rgba(229, 231, 235, 0.10);
+}
+
+.card-title h1 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: var(--primary);
+}
+
+/* If gusto nimo centered ang "My Profile", i-uncomment ni:
+.card-title { text-align: center; }
+*/
+
+/* =========================
+   Avatar section
+   ========================= */
 .profile-top {
   text-align: center;
   margin-bottom: 2rem;
@@ -180,6 +211,27 @@ body.dark-mode .progress-bar {
   transition: width 0.8s ease;
 }
 
+/* =========================
+   ✅ MERGED: Mobile menu button
+   ========================= */
+.mobile-menu-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 999;
+  border: none;
+  background: rgba(15, 23, 42, 0.35);
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: none; /* show only on mobile */
+}
+
+body.dark-mode .mobile-menu-btn {
+  background: rgba(255,255,255,0.10);
+}
+
 /* RESPONSIVE */
 @media (max-width: 1024px) {
   .profile-container {
@@ -192,6 +244,13 @@ body.dark-mode .progress-bar {
   .main-content {
     margin-left: 0;
     padding: 1.25rem 1rem;
+    align-items: flex-start; /* better sa mobile */
+  }
+
+  .mobile-menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .profile-top {
@@ -237,5 +296,9 @@ body.dark-mode .progress-bar {
 
   .profile-info h1 {
     font-size: 1.7rem;
+  }
+
+  .card-title h1 {
+    font-size: 28px;
   }
 }

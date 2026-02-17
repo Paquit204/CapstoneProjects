@@ -34,8 +34,8 @@ if ($first && $last) $initials = strtoupper(substr($first,0,1) . substr($last,0,
 elseif ($first) $initials = strtoupper(substr($first,0,1));
 else $initials = "U";
 
-$profilePicUrl = $user["profile_picture"] 
-    ? "../uploads/profile_pictures/" . $user["profile_picture"] 
+$profilePicUrl = $user["profile_picture"]
+    ? "../uploads/profile_pictures/" . $user["profile_picture"]
     : "";
 
 $email   = trim($user["email"] ?? "");
@@ -100,16 +100,20 @@ $birth   = trim($user["birth_date"] ?? "");
 
     <main class="main-content">
 
-        <header class="topbar">
-            <h1>My Profile</h1>
-            <button class="mobile-menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('active')">
-                <i class="fas fa-bars"></i>
-            </button>
-        </header>
+        <!-- ✅ MOBILE MENU BUTTON (moved here, optional) -->
+        <button class="mobile-menu-btn"
+                onclick="document.querySelector('.sidebar').classList.toggle('active')">
+            <i class="fas fa-bars"></i>
+        </button>
 
         <div class="profile-container">
 
             <div class="profile-card main">
+
+                <!-- ✅ TITLE NOW INSIDE THE CARD (ABOVE IMAGE) -->
+                <div class="card-title">
+                    <h1>My Profile</h1>
+                </div>
 
                 <div class="profile-top">
                     <?php if ($profilePicUrl && file_exists(__DIR__ . "/../uploads/profile_pictures/" . $user["profile_picture"])): ?>
