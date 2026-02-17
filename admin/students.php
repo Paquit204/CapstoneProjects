@@ -1,60 +1,91 @@
 <?php
 require_once "config.php";
+$course = trim($_GET['course'] ?? '');
+$year_level = trim($_GET['year_level'] ?? '');
 
-if (isset($_GET['verify'])) {
-  $id = (int)$_GET['verify'];
-  $stmt = $conn->prepare("UPDATE students SET is_verified = 1 WHERE id = ? AND status = 1");
-  $stmt->bind_param("i", $id);
-  $stmt->execute();
-  header("Location: students.php");
-  exit;
+$where = "WHERE 1";
+$params = [];
+$types = "";
+
+/* Optional filters */
+if ($course !== "") {
+  $where .= " AND course = ?";
+  $params[] = $course;
+  $types .= "s";
 }
 
-if (isset($_GET['unverify'])) {
-  $id = (int)$_GET['unverify'];
-  $stmt = $conn->prepare("UPDATE students SET is_verified = 0 WHERE id = ? AND status = 1");
-  $stmt->bind_param("i", $id);
-  $stmt->execute();
-  header("Location: students.php");
-  exit;
+if ($year_level !== "") {
+  $where .= " AND year_level = ?";
+  $params[] = $year_level;
+  $types .= "s";
 }
 
-$filter = $_GET['filter'] ?? 'all';
-$where = "WHERE status = 1";
+/* Prepare query */
+$sql = "SELECT student_id, student_number, course, year_level FROM student_table $where ORDER BY student_id DESC";
+$stmt = $conn->prepare($sql);
 
-if ($filter === "verified") {
-  $where .= " AND is_verified = 1";
-} elseif ($filter === "not_verified") {
-  $where .= " AND is_verified = 0";
+if (!empty($params)) {
+  $stmt->bind_param($types, ...$params);
 }
-$result = $conn->query("SELECT * FROM students $where ORDER BY id DESC");
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+/* For dropdown values */
+$courses_res = $conn->query("SELECT DISTINCT course FROM student_table WHERE course <> '' ORDER BY course ASC");
+$years_res   = $conn->query("SELECT DISTINCT year_level FROM student_table WHERE year_level <> '' ORDER BY year_level ASC");
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Student List</title>
-  <link rel="stylesheet" href="/thesis_archiving/css/students.css?v=1">
+  <link rel="stylesheet" href="css/students.css">
 </head>
 <body>
-<div class="container">
 
+<div class="container">
   <div class="header">
     <h3>Student List</h3>
-
-    <div class="tabs">
-      <a href="students.php?filter=all" class="tab tab-all <?= $filter==='all'?'active':'' ?>">All</a>
-      <a href="students.php?filter=verified" class="tab tab-verified <?= $filter==='verified'?'active':'' ?>">Verified</a>
-      <a href="students.php?filter=not_verified" class="tab tab-not <?= $filter==='not_verified'?'active':'' ?>">Not Verified</a>
-    </div>
   </div>
+
+  <!-- FILTER FORM (optional pero helpful) -->
+  <form method="get" class="filters" style="margin-bottom: 15px;">
+    <select name="course">
+      <option value="">All Courses</option>
+      <?php if ($courses_res): ?>
+        <?php while ($c = $courses_res->fetch_assoc()): ?>
+          <option value="<?= htmlspecialchars($c['course']) ?>"
+            <?= ($course === $c['course']) ? 'selected' : '' ?>>
+            <?= htmlspecialchars($c['course']) ?>
+          </option>
+        <?php endwhile; ?>
+      <?php endif; ?>
+    </select>
+
+    <select name="year_level">
+      <option value="">All Year Levels</option>
+      <?php if ($years_res): ?>
+        <?php while ($y = $years_res->fetch_assoc()): ?>
+          <option value="<?= htmlspecialchars($y['year_level']) ?>"
+            <?= ($year_level === $y['year_level']) ? 'selected' : '' ?>>
+            <?= htmlspecialchars($y['year_level']) ?>
+          </option>
+        <?php endwhile; ?>
+      <?php endif; ?>
+    </select>
+
+    <button type="submit" class="btn green btn-sm">Filter</button>
+    <a href="students.php" class="btn gray btn-sm">Reset</a>
+  </form>
+
   <table class="table">
     <thead>
       <tr>
         <th class="col-num">#</th>
-        <th>Full Name</th>
-        <th class="col-status">Status</th>
-        <th class="col-action">Action</th>
+        <th>Student Number</th>
+        <th>Course</th>
+        <th>Year Level</th>
       </tr>
     </thead>
     <tbody>
@@ -62,25 +93,9 @@ $result = $conn->query("SELECT * FROM students $where ORDER BY id DESC");
         <?php $i=1; while($row = $result->fetch_assoc()): ?>
           <tr>
             <td><?= $i++ ?></td>
-            <td><?= htmlspecialchars($row['full_name']) ?></td>
-            <td>
-              <?php if ((int)$row['is_verified'] === 1): ?>
-                <span class="badge ok">Verified</span>
-              <?php else: ?>
-                <span class="badge warn">Not Verified</span>
-              <?php endif; ?>
-            </td>
-            <td>
-              <?php if ((int)$row['is_verified'] === 1): ?>
-                <a class="btn gray btn-sm"
-                   href="students.php?unverify=<?= $row['id'] ?>"
-                   onclick="return confirm('Unverify this student?')">Unverify</a>
-              <?php else: ?>
-                <a class="btn green btn-sm"
-                   href="students.php?verify=<?= $row['id'] ?>"
-                   onclick="return confirm('Verify this student?')">Verify</a>
-              <?php endif; ?>
-            </td>
+            <td><?= htmlspecialchars($row['student_number']) ?></td>
+            <td><?= htmlspecialchars($row['course']) ?></td>
+            <td><?= htmlspecialchars($row['year_level']) ?></td>
           </tr>
         <?php endwhile; ?>
       <?php else: ?>
@@ -90,7 +105,12 @@ $result = $conn->query("SELECT * FROM students $where ORDER BY id DESC");
       <?php endif; ?>
     </tbody>
   </table>
+
   <a href="admindashboard.php" class="btn gray back-btn">Back to Dashboard</a>
-    </div>
-  </body>
+</div>
+
+</body>
 </html>
+<?php
+$stmt->close();
+?>

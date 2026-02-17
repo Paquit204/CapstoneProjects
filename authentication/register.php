@@ -1,293 +1,191 @@
 <?php
 session_start();
+require_once __DIR__ . "/../admin/config.php";
 
 $message = "";
-$full_name = $email = $username = $department = "";
-
-function split_name($fullName) {
-    $fullName = trim(preg_replace('/\s+/', ' ', $fullName));
-    if ($fullName === '') return ['', ''];
-
-    $parts = explode(' ', $fullName);
-    if (count($parts) === 1) return [$parts[0], ''];
-
-    $last = array_pop($parts);
-    $first = implode(' ', $parts);
-    return [$first, $last];
-}
+$success = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $full_name        = trim($_POST['fullname'] ?? '');
-    $email            = trim($_POST['email'] ?? '');
-    $username         = trim($_POST['username'] ?? '');
-    $password         = $_POST['password'] ?? '';
-    $confirm_password = $_POST['confirm_password'] ?? '';
-    $role             = $_POST['role'] ?? '';
-    $department       = trim($_POST['department'] ?? '');
 
-    // Optional fields (if you want to add later)
-    $birth_date  = trim($_POST['birth_date'] ?? '');   // optional
-    $address     = trim($_POST['address'] ?? '');      // optional
-    $contact_num = trim($_POST['contact_num'] ?? '');  // optional
+    $role_id     = (int)($_POST["role_id"] ?? 2);
 
-    // Role -> role_id mapping (adjust if you have your own role table)
-    $role_map = [
-        'admin'   => 1,
-        'faculty' => 2,
-        'student' => 3,
-    ];
-    $role_id = $role_map[$role] ?? 0;
+    $first_name  = trim($_POST["first_name"] ?? "");
+    $last_name   = trim($_POST["last_name"] ?? "");
+    $email       = trim($_POST["email"] ?? "");
+    $username    = trim($_POST["username"] ?? "");
+    $password    = $_POST["password"] ?? "";
+    $cpassword   = $_POST["cpassword"] ?? "";
+    $department  = trim($_POST["department"] ?? "");
+    $birth_date  = trim($_POST["birth_date"] ?? "");
+    $address     = trim($_POST["address"] ?? "");
 
-    // Basic validations
-    if (!$full_name || !$email || !$username || !$password || !$role_id || !$department) {
-        $message = "All required fields must be filled.";
+    $contact_number = trim($_POST["contact_number"] ?? "");
+
+    $status      = "1";
+
+    if ($first_name === "" || $last_name === "" || $email === "" || $username === "" || $password === "" || $cpassword === "" || $contact_number === "") {
+        $message = "Please fill in all required fields.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $message = "Invalid email format.";
-    } elseif ($password !== $confirm_password) {
+    } elseif ($password !== $cpassword) {
         $message = "Password and Confirm Password do not match.";
+    } elseif (strlen($password) < 6) {
+        $message = "Password must be at least 6 characters.";
+    } elseif (!ctype_digit($contact_number) || strlen($contact_number) < 10) {
+        $message = "Contact number must be numeric and valid.";
+    } elseif (!in_array($role_id, [1,2,3,4], true)) {
+        $message = "Invalid role selected.";
     } else {
 
-        // Split full name into first_name and last_name
-        [$first_name, $last_name] = split_name($full_name);
+        $check = $conn->prepare("SELECT user_id FROM user_table WHERE username = ? OR email = ? LIMIT 1");
+        $check->bind_param("ss", $username, $email);
+        $check->execute();
+        $exists = $check->get_result();
 
-        // Connect to DB (match your DB name)
-        $conn = new mysqli("localhost", "root", "", "thesiss_archiving");
-        if ($conn->connect_error) {
-            $message = "Connection failed: " . $conn->connect_error;
+        if ($exists && $exists->num_rows > 0) {
+            $message = "Username or Email already exists.";
         } else {
-            $conn->set_charset("utf8mb4");
 
-            // Check if email exists
-            $stmt = $conn->prepare("SELECT user_id FROM user WHERE email = ? LIMIT 1");
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $stmt->store_result();
+            $hashed = password_hash($password, PASSWORD_DEFAULT);
+            $profile_picture = "default.png";
 
-            if ($stmt->num_rows > 0) {
-                $message = "Email already exists.";
-                $stmt->close();
+            $stmt = $conn->prepare("
+                INSERT INTO user_table
+                (role_id, first_name, last_name, email, username, password, department, birth_date, address, contact_number, status, profile_picture)
+                VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ");
+
+            $stmt->bind_param(
+                "isssssssssss",
+                $role_id,
+                $first_name,
+                $last_name,
+                $email,
+                $username,
+                $hashed,
+                $department,
+                $birth_date,
+                $address,
+                $contact_number,
+                $status,
+                $profile_picture
+            );
+
+            if ($stmt->execute()) {
+                $success = "Registered successfully! You can now login.";
             } else {
-                $stmt->close();
-
-                // Check if username exists
-                $stmt = $conn->prepare("SELECT user_id FROM user WHERE username = ? LIMIT 1");
-                $stmt->bind_param("s", $username);
-                $stmt->execute();
-                $stmt->store_result();
-
-                if ($stmt->num_rows > 0) {
-                    $message = "Username already exists.";
-                    $stmt->close();
-                } else {
-                    $stmt->close();
-
-                    $hashed = password_hash($password, PASSWORD_DEFAULT);
-                    $status = "Pending";
-                    $profile_picture = ""; 
-                    $insert = $conn->prepare("
-                        INSERT INTO user
-                        (role_id, first_name, last_name, email, username, password, department, birth_date, address, contact_num, status, profile_picture, date_created, updated_at)
-                        VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
-                    ");
-
-                    // contact_num is int in your DB (int(11)), convert safely
-                    $contact_int = ($contact_num !== '' && ctype_digit($contact_num)) ? (int)$contact_num : 0;
-
-                    $insert->bind_param(
-                        "issssssssiss",
-                        $role_id,
-                        $first_name,
-                        $last_name,
-                        $email,
-                        $username,
-                        $hashed,
-                        $department,
-                        $birth_date,
-                        $address,
-                        $contact_int,
-                        $status,
-                        $profile_picture
-                    );
-
-                    if ($insert->execute()) {
-                        $message = "Registration successful! Wait for admin approval.";
-                        echo "<script>setTimeout(() => { window.location.href='login.php'; }, 2000);</script>";
-                    } else {
-                        $message = "⚠️ Registration failed: " . $insert->error;
-                    }
-
-                    $insert->close();
-                }
+                $message = "Register failed: " . $conn->error;
             }
 
-            $conn->close();
+            $stmt->close();
         }
+
+        $check->close();
     }
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Thesis Archiving System</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="css/register.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - Thesis Archiving</title>
+
+  <link rel="stylesheet" href="css/register.css?v=1">
 </head>
 <body>
 
-<div class="container">
-    <div class="register-container">
-        <div class="register-header">
-            <span class="material-symbols-outlined register-icon">person_add</span>
-            <h2>Create Your Account</h2>
-            <p>Join our academic community</p>
-        </div>
-
-        <?php if (!empty($message)) : ?>
-            <div class="message"><?php echo htmlspecialchars($message); ?></div>
-        <?php endif; ?>
-
-        <form class="register-form" method="post">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="fullname">Full Name *</label>
-                    <div class="input-wrapper">
-                        <span class="material-symbols-outlined input-icon">person</span>
-                        <input type="text" id="fullname" name="fullname" value="<?php echo htmlspecialchars($full_name); ?>" placeholder="Enter your full name" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email *</label>
-                    <div class="input-wrapper">
-                        <span class="material-symbols-outlined input-icon">mail</span>
-                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" placeholder="Enter your email" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="username">Username *</label>
-                    <div class="input-wrapper">
-                        <span class="material-symbols-outlined input-icon">account_circle</span>
-                        <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($username); ?>" placeholder="Choose a username" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="role">Role *</label>
-                    <div class="input-wrapper">
-                        <span class="material-symbols-outlined input-icon">group</span>
-                        <select id="role" name="role" required>
-                            <option value="">Select role</option>
-                            <option value="student">Student</option>
-                            <option value="faculty">Faculty</option>
-                            <option value="admin">Admin</option>
-                            <option value="admin">Dean</option>
-                            
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="department">Department *</label>
-                    <div class="input-wrapper">
-                        <span class="material-symbols-outlined input-icon">school</span>
-                        <select id="department" name="department" required>
-                            <option value="">Select department</option>
-                            <option value="BSIT">BSIT</option>
-                            <option value="EDUC">EDUC</option>
-                            <option value="CRIME">CRIME</option>
-                            <option value="BSN">BSN</option>
-                            <option value="BSBA">BSBA</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="contact_num">Contact Number *</label>
-                    <div class="input-wrapper">
-                        <span class="material-symbols-outlined input-icon">call</span>
-                        <input type="text" id="contact_num" name="contact_num" placeholder="09xxxxxxxxx" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="password">Password *</label>
-                    <div class="input-wrapper">
-                        <span class="material-symbols-outlined input-icon">lock</span>
-                        <input type="password" id="password" name="password" placeholder="Create a password" required>
-                        <span class="material-symbols-outlined password-toggle" id="reg-toggle">visibility_off</span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="confirm_password">Confirm Password *</label>
-                    <div class="input-wrapper">
-                        <span class="material-symbols-outlined input-icon">lock</span>
-                     <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm password" required>
-                        <span class="material-symbols-outlined password-toggle" id="confirm-toggle">visibility_off</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="terms-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" name="terms" required>
-                    <span>I agree to the <a href="#" class="link">Terms and Conditions</a> and <a href="#" class="link">Privacy Policy</a></span>
-                </label>
-            </div>
-
-            <button type="submit" class="btn-register">Create Account</button>
-
-            <div class="login-link">
-                <p>Already have an account? <a href="login.php">Login here</a></p>
-            </div>
-        </form>
+<div class="auth-wrap">
+  <div class="card">
+    <div class="top-icon" aria-hidden="true">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+        <path d="M15 19a6 6 0 0 0-12 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="2"/>
+        <path d="M19 8v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M22 11h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
     </div>
+
+    <h1>Create Account</h1>
+    <p class="sub"></p>
+
+    <?php if ($message): ?>
+      <div class="alert"><?php echo htmlspecialchars($message); ?></div>
+    <?php endif; ?>
+
+    <?php if ($success): ?>
+      <div class="success"><?php echo htmlspecialchars($success); ?></div>
+    <?php endif; ?>
+
+    <form method="POST" class="form" autocomplete="off">
+
+      <label class="lbl">Role *</label>
+
+      <div class="select-wrap">
+        <select class="select" name="role_id" required>
+          <option value="" disabled selected>Select role</option>
+          <option value="1">Admin</option>
+          <option value="2">Student</option>
+          <option value="3">Faculty</option>
+          <option value="4">Dean</option>
+        </select>
+      </div>
+
+      <div class="grid">
+        <div>
+          <label class="lbl">First Name *</label>
+          <input class="input" type="text" name="first_name" placeholder="Enter first name" required>
+        </div>
+        <div>
+          <label class="lbl">Last Name *</label>
+          <input class="input" type="text" name="last_name" placeholder="Enter last name" required>
+        </div>
+      </div>
+
+      <label class="lbl">Email *</label>
+      <input class="input" type="email" name="email" placeholder="Enter email" required>
+
+      <label class="lbl">Username *</label>
+      <input class="input" type="text" name="username" placeholder="Enter username" required>
+
+      <div class="grid">
+        <div>
+          <label class="lbl">Password *</label>
+          <input class="input" type="password" name="password" placeholder="Enter password" required>
+        </div>
+        <div>
+          <label class="lbl">Confirm Password *</label>
+          <input class="input" type="password" name="cpassword" placeholder="Confirm password" required>
+        </div>
+      </div>
+
+      <label class="lbl">Department</label>
+      <input class="input" type="text" name="department" placeholder="">
+
+      <div class="grid">
+        <div>
+          <label class="lbl">Birth Date</label>
+          <input class="input" type="date" name="birth_date">
+        </div>
+        <div>
+          <label class="lbl">Contact Number *</label>
+          <input class="input" type="text" name="contact_number" placeholder="09xxxxxxxxx" required>
+        </div>
+      </div>
+
+      <label class="lbl">Address</label>
+      <textarea class="textarea" name="address" placeholder="Enter address"></textarea>
+
+      <button class="btn" type="submit">Register</button>
+
+      <div class="or">OR</div>
+      <div class="foot">
+        Already have an account? <a class="link" href="login.php">Login</a>
+      </div>
+    </form>
+  </div>
 </div>
-
-<script>
-const regToggle = document.getElementById('reg-toggle');
-const regPass = document.getElementById('password');
-
-if (regToggle && regPass) {
-    regToggle.addEventListener('click', () => {
-        if (regPass.type === 'password') {
-            regPass.type = 'text';
-            regToggle.textContent = 'visibility';
-        } else {
-            regPass.type = 'password';
-            regToggle.textContent = 'visibility_off';
-        }
-    });
-}
-
-const confirmToggle = document.getElementById('confirm-toggle');
-const confirmPass = document.getElementById('confirm_password');
-
-if (confirmToggle && confirmPass) {
-    confirmToggle.addEventListener('click', () => {
-        if (confirmPass.type === 'password') {
-            confirmPass.type = 'text';
-            confirmToggle.textContent = 'visibility';
-        } else {
-            confirmPass.type = 'password';
-            confirmToggle.textContent = 'visibility_off';
-        }
-    });
-}
-</script>
 
 </body>
 </html>

@@ -1,208 +1,177 @@
-:root {
-    --navy: #0f172a;
-    --navy-dark: #020617;
-    --gold: #fbbf24;
-    --gold-dark: #d97706;
-    --blue: #3b82f6;
-    --blue-dark: #2563eb;
-    --gray: #64748b;
-    --light-gray: #94a3b8;
-    --light: #f8fafc;
-    --white: #ffffff;
-    --card-bg: rgba(30, 41, 59, 0.92);
-    --shadow: 0 10px 30px rgba(0,0,0,0.25);
-    --radius: 16px;
-    --transition: all 0.25s ease;
+/* register.css - EXACT output like your screenshot */
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+
+:root{
+  --bg1:#071a33;
+  --bg2:#050e1e;
+
+  --card1:#0a1f3a;
+  --card2:#071a33;
+
+  --stroke: rgba(255,255,255,.10);
+  --stroke2: rgba(255,255,255,.14);
+
+  --text:#eaf2ff;
+  --muted: rgba(234,242,255,.70);
+
+  --input-bg: rgba(0,0,0,.18);
+  --input-bg2: rgba(0,0,0,.26);
+
+  --yellow1:#ffcc33;
+  --yellow2:#f6b51a;
+
+  --shadow: 0 22px 60px rgba(0,0,0,.55);
 }
 
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, var(--navy) 0%, #1e293b 100%);
-    color: var(--light-gray);
-    line-height: 1.6;
-    min-height: 100vh;
+body{
+  min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(1100px 700px at 20% 10%, rgba(255,255,255,.06), transparent 55%),
+    radial-gradient(900px 700px at 80% 35%, rgba(255,190,50,.08), transparent 55%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  display:flex;
+  justify-content:center;
+  align-items:center;        /* ✅ center card vertically */
+  padding:24px 14px;
 }
 
-/* ... (rest of your navbar, .container, etc. styles from login.css if needed) ... */
+.auth-wrap{width:100%;max-width:520px;}
 
-.container {
-    max-width: 540px;
-    margin: 4rem auto 6rem;
+.card{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05), transparent 55%),
+    linear-gradient(180deg, var(--card1), var(--card2));
+  border:1px solid var(--stroke);
+  border-radius:22px;
+  padding:22px 20px 18px;
+  box-shadow:var(--shadow);
+
+  text-align:left;          /* ✅ keep all text left like screenshot */
 }
 
-.register-container {
-    background: var(--card-bg);
-    padding: 2.8rem 2.4rem;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(251,191,36,0.08);
+/* ✅ icon centered */
+.top-icon{
+  width:58px;height:58px;
+  margin:0 auto 16px;
+  display:grid;place-items:center;
+  border-radius:16px;
+  background:rgba(255,190,50,.14);
+  border:1px solid rgba(255,190,50,.22);
+  color:var(--yellow1);
 }
 
-.register-header {
-    text-align: center;
-    margin-bottom: 2.2rem;
+h1{
+  text-align:left;          /* ✅ left like screenshot */
+  font-size:32px;
+  font-weight:800;
+  margin:2px 0 6px;
 }
 
-.register-icon {
-    font-size: 3.8rem;
-    color: var(--gold);
-    margin-bottom: 1.1rem;
+.sub{
+  text-align:left;          /* ✅ left like screenshot */
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:18px;
 }
 
-.register-header h2 {
-    color: var(--white);
-    font-size: 1.95rem;
-    font-weight: 600;
+.alert,.success{
+  padding:11px 12px;
+  border-radius:14px;
+  margin:12px 0 14px;
+  border:1px solid var(--stroke2);
+  font-size:14px;
+}
+.alert{background:rgba(255,80,80,.12);border-color:rgba(255,80,80,.22);color:#ffd5d5}
+.success{background:rgba(65,211,138,.12);border-color:rgba(65,211,138,.22);color:#d9ffe9}
+
+.form{display:block}
+
+/* labels */
+.lbl{
+  display:block;
+  color:rgba(234,242,255,.80);
+  font-size:13px;
+  margin:12px 0 8px;
 }
 
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem 1.8rem;
-    margin-bottom: 1.4rem;
+/* inputs */
+.input,.select,.textarea{
+  width:100%;
+  border-radius:14px;
+  border:1px solid var(--stroke);
+  background:linear-gradient(180deg,var(--input-bg),var(--input-bg2));
+  color:var(--text);
+  padding:14px 14px;
+  outline:none;
+  transition:.15s ease;
 }
 
-.form-row .form-group:last-child {
-    grid-column: span 2;
+.input::placeholder,.textarea::placeholder{color:rgba(234,242,255,.35)}
+
+.input:focus,.select:focus,.textarea:focus{
+  border-color:rgba(255,190,50,.45);
+  box-shadow:0 0 0 4px rgba(255,190,50,.12);
 }
 
-@media (max-width: 600px) {
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 1.6rem;
-    }
-    .form-row .form-group:last-child {
-        grid-column: span 1;
-    }
+/* select arrow */
+.select{
+  appearance:none;
+  padding-right:46px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(234,242,255,.75) 50%),
+    linear-gradient(135deg, rgba(234,242,255,.75) 50%, transparent 50%);
+  background-position: calc(100% - 18px) 50%, calc(100% - 12px) 50%;
+  background-size:6px 6px, 6px 6px;
+  background-repeat:no-repeat;
+}
+.select option{background:#0b1f3a;color:var(--text)}
+
+.textarea{min-height:92px;resize:none}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+@media (max-width:380px){
+  .grid{grid-template-columns:1fr}
 }
 
-.btn-register {
-    width: 100%;
-    padding: 1.15rem;
-    background: #10b981;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.05rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    margin-top: 0.8rem;
+/* button */
+.btn{
+  margin-top:18px;
+  width:100%;
+  border:none;
+  border-radius:16px;
+  padding:16px 14px;
+  font-weight:800;
+  letter-spacing:.3px;
+  cursor:pointer;
+  color:#141414;
+  background:linear-gradient(180deg,var(--yellow1),var(--yellow2));
+  box-shadow:0 16px 34px rgba(246,181,26,.22);
+  transition:transform .08s ease, filter .15s ease;
 }
+.btn:hover{filter:brightness(1.03)}
+.btn:active{transform:translateY(1px)}
 
-.btn-register:hover {
-    background: #059669;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(16,185,129,0.35);
+.or{
+  text-align:center;
+  margin:14px 0 8px;
+  color:rgba(234,242,255,.45);
+  font-size:12px;
+  letter-spacing:1px;
 }
-
-.terms-group {
-    margin: 1.6rem 0;
-    font-size: 0.98rem;
-    color: var(--light-gray);
+.foot{
+  text-align:center;
+  color:rgba(234,242,255,.70);
+  font-size:14px;
+  padding-bottom:6px;
 }
-
-.terms-group a {
-    color: var(--gold);
-    text-decoration: none;
+.link{
+  color:var(--yellow1);
+  text-decoration:none;
+  font-weight:800;
 }
-
-.terms-group a:hover { text-decoration: underline; }
-
-/* Add these from login.css for completeness (inputs, labels, etc.) */
-.form-group {
-    margin-bottom: 1.7rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.7rem;
-    color: #cbd5e1;
-    font-weight: 500;
-    font-size: 0.98rem;
-}
-
-.input-wrapper {
-    position: relative;
-}
-
-.input-wrapper input,
-.input-wrapper select {
-    width: 100%;
-    padding: 1.05rem 1.1rem 1.05rem 3rem;
-    border: 1px solid #475569;
-    border-radius: 10px;
-    background: #1e293b;
-    color: white;
-    font-size: 1.02rem;
-    transition: var(--transition);
-}
-
-.input-wrapper input:focus,
-.input-wrapper select:focus {
-    outline: none;
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(251,191,36,0.15);
-}
-
-.input-wrapper .material-symbols-outlined.input-icon {
-    position: absolute;
-    left: 1.1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--light-gray);
-    font-size: 1.4rem;
-}
-
-.password-toggle {
-    position: absolute;
-    right: 1.1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: var(--light-gray);
-    transition: var(--transition);
-}
-
-.password-toggle:hover { color: var(--gold); }
-
-.message {
-    padding: 1rem 1.3rem;
-    border-radius: 10px;
-    margin-bottom: 1.8rem;
-    background: rgba(239,68,68,0.18);
-    color: #ef4444;
-    border: 1px solid rgba(239,68,68,0.3);
-    text-align: center;
-    font-weight: 500;
-}
-
-.login-link {
-    text-align: center;
-    margin-top: 1.8rem;
-    font-size: 1.02rem;
-    color: var(--light-gray);
-}
-
-.login-link a {
-    color: var(--gold);
-    font-weight: 500;
-    text-decoration: none;
-    transition: var(--transition);
-}
-
-.login-link a:hover {
-    color: var(--gold-dark);
-    text-decoration: underline;
-}
-
-.footer {
-    background: var(--navy-dark);
-    text-align: center;
-    padding: 3rem 1rem 4rem;
-    color: var(--light-gray);
-    font-size: 0.95rem;
-}
+.link:hover{text-decoration:underline}

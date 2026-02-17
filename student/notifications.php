@@ -33,7 +33,7 @@
         </a>
         <a href="notifications.php" class="nav-link active">
           <i class="fas fa-bell"></i> Notifications
-          <span class="badge">4</span>
+          <span class="badge" id="notification-badge">4</span>
         </a>
       </nav>
 
@@ -71,7 +71,7 @@
           </div>
         </div>
 
-        <div class="notification-item">
+        <div class="notification-item unread">
           <div class="notif-icon"><i class="fas fa-calendar-check"></i></div>
           <div class="notif-content">
             <p>Final defense schedule confirmed: <strong>March 15, 2026 – 10:00 AM</strong></p>
@@ -79,7 +79,7 @@
           </div>
         </div>
 
-        <div class="notification-item">
+        <div class="notification-item unread">
           <div class="notif-icon"><i class="fas fa-exclamation-triangle"></i></div>
           <div class="notif-content">
             <p>Reminder: Submit final manuscript before <strong>February 20, 2026</strong></p>
@@ -87,7 +87,7 @@
           </div>
         </div>
 
-        <div class="notification-item">
+        <div class="notification-item unread">
           <div class="notif-icon"><i class="fas fa-check-circle"></i></div>
           <div class="notif-content">
             <p>Proposal defense (October 2025) marked as <strong>Passed</strong></p>
@@ -100,6 +100,7 @@
   </div>
 
   <script>
+    // Dark mode toggle (unchanged)
     const toggle = document.getElementById('darkmode');
     if (toggle) {
       toggle.addEventListener('change', () => {
@@ -111,6 +112,46 @@
         document.body.classList.add('dark-mode');
       }
     }
+
+    // =============================================
+    // Mark notification as read + update badge count
+    // =============================================
+    document.addEventListener('DOMContentLoaded', () => {
+      const badgeElement = document.getElementById('notification-badge');
+      let unreadCount = badgeElement ? parseInt(badgeElement.textContent.trim(), 10) : 0;
+
+      document.querySelectorAll('.notification-item').forEach(notification => {
+        notification.addEventListener('click', function(e) {
+          // Skip if clicked on something interactive inside (future-proof)
+          if (e.target.closest('a, button, input, select')) {
+            return;
+          }
+
+          // Only act if this notification is still unread
+          if (this.classList.contains('unread')) {
+            // Remove unread styling
+            this.classList.remove('unread');
+
+            // Decrease counter
+            if (unreadCount > 0) {
+              unreadCount--;
+              if (unreadCount > 0) {
+                badgeElement.textContent = unreadCount;
+              } else {
+                // Remove badge completely when no unread left
+                badgeElement.remove();
+              }
+            }
+
+            // Optional: small visual feedback
+            this.style.backgroundColor = 'rgba(100, 116, 139, 0.08)';
+            setTimeout(() => {
+              this.style.backgroundColor = '';
+            }, 400);
+          }
+        });
+      });
+    });
   </script>
 </body>
 </html>

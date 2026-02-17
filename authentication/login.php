@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once __DIR__ . "/../admin/config.php"; // ✅ use your config
 
 $message = "";
 $message_type = "";
@@ -12,57 +13,67 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $message = "Username and password are required.";
         $message_type = "error";
     } else {
-        $conn = new mysqli("localhost", "root", "", "thesiss_archiving");
-        if ($conn->connect_error) {
-            $message = "Connection failed: " . $conn->connect_error;
-            $message_type = "error";
-        } else {
-            $conn->set_charset("utf8mb4");
 
-            $stmt = $conn->prepare("SELECT user_id, role_id, username, password, status FROM user WHERE username = ? OR email = ? LIMIT 1");
-            $stmt->bind_param("ss", $username, $username);
-            $stmt->execute();
-            $result = $stmt->get_result();
+        $stmt = $conn->prepare("
+            SELECT user_id, role_id, first_name, last_name, username, password, status
+            FROM user_table
+            WHERE username = ? OR email = ?
+            LIMIT 1
+        ");
+        $stmt->bind_param("ss", $username, $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-            if ($row = $result->fetch_assoc()) {
-                $status = strtolower(trim($row['status'] ?? ''));
+        if ($row = $result->fetch_assoc()) {
 
-                if ($status === 'pending') {
-                    $message = "Your account is still pending approval.";
-                    $message_type = "error";
-                } elseif ($status === 'inactive' || $status === 'disabled') {
-                    $message = "Your account is inactive. Contact admin.";
-                    $message_type = "error";
-                } else {
-                    if (password_verify($password, $row['password'])) {
-                        $_SESSION['user_id'] = (int)$row['user_id'];
-                        $_SESSION['username'] = $row['username'];
-                        $_SESSION['role_id'] = (int)$row['role_id'];
-                        $_SESSION['login_time'] = date('Y-m-d H:i:s');
-
-                        $message = "✓ Login successful! Redirecting...";
-                        $message_type = "success";
-
-                        $redirect = "/CapstoneProjects/student/student_dashboard.php";
-                        if ((int)$row['role_id'] === 1) $redirect = "/CapstoneProjects/admin/admindashboard.php";
-                        elseif ((int)$row['role_id'] === 2) $redirect = "/CapstoneProjects/faculty/facultyDashboard.php";
-                        elseif ((int)$row['role_id'] === 3) $redirect = "/CapstoneProjects/student/student_dashboard.php";
-                       elseif ((int)$row['role_id'] === 4) $redirect = "/CapstoneProjects/dean/deanDashboard.php";
-                        header("Location: $redirect");
-                        exit;
-                    } else {
-                        $message = "Invalid username/email or password.";
-                        $message_type = "error";
-                    }
-                }
-            } else {
-                $message = "Invalid username/email or password.";
+            $status = (string)($row['status'] ?? 'Pending');
+            if ($status !== "Active") {
+                $message = "Your account is inactive/pending. Contact admin.";
                 $message_type = "error";
+            } else {
+
+                if (password_verify($password, $row['password'])) {
+
+                    $_SESSION['user_id'] = (int)$row['user_id'];
+                    $_SESSION['role_id'] = (int)$row['role_id'];
+                    $_SESSION['username'] = $row['username'];
+
+                    $_SESSION['first_name'] = $row['first_name'];
+                    $_SESSION['last_name']  = $row['last_name'];
+
+                    $_SESSION['login_time'] = date('Y-m-d H:i:s');
+
+                    $message = "✓ Login successful! Redirecting...";
+                    $message_type = "success";
+
+                    // ✅ FIXED role redirects (based on your register roles)
+                    $redirect = "/CapstoneProjects/student/student_dashboard.php"; // default student
+
+                    if ((int)$row['role_id'] === 1) {
+                        $redirect = "/CapstoneProjects/admin/admindashboard.php";
+                    } elseif ((int)$row['role_id'] === 2) {
+                        $redirect = "/CapstoneProjects/student/student_dashboard.php"; // ✅ Student
+                    } elseif ((int)$row['role_id'] === 3) {
+                        $redirect = "/CapstoneProjects/faculty/facultyDashboard.php"; // ✅ Faculty
+                    } elseif ((int)$row['role_id'] === 4) {
+                        $redirect = "/CapstoneProjects/dean/deanDashboard.php"; // ✅ Dean
+                    }
+
+                    header("Location: $redirect");
+                    exit;
+
+                } else {
+                    $message = "Invalid username/email or password.";
+                    $message_type = "error";
+                }
             }
 
-            $stmt->close();
-            $conn->close();
+        } else {
+            $message = "Invalid username/email or password.";
+            $message_type = "error";
         }
+
+        $stmt->close();
     }
 }
 ?>
@@ -76,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/login.css?v=1">
 </head>
 <body>
     <nav class="navbar">
@@ -172,6 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </form>
         </div>
     </div>
+
     <script>
         function quickLogin(role) {
             switch(role) {
@@ -189,6 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     break;
             }
         }
+
         const loginToggle = document.getElementById('login-toggle');
         const loginPass = document.getElementById('password');
 

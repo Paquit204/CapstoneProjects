@@ -1,0 +1,255 @@
+/* ===== EDIT PROFILE - Centered, No Excessive Right Space ===== */
+
+.profile-container {
+  max-width: 1200px;               /* ← this is the key: limits how wide it gets */
+  margin: 2.5rem auto;             /* ← centers the whole block */
+  display: grid;
+  grid-template-columns: 3fr 1fr;  /* form bigger, tips smaller */
+  gap: 2rem;
+  padding: 0 1.5rem;               /* balanced side padding */
+  box-sizing: border-box;
+}
+
+.profile-card.main {
+  padding: 2.5rem;
+  border-radius: 16px;
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+}
+
+body.dark-mode .profile-card.main {
+  background: var(--card-bg-dark);
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  max-width: 800px;                /* form fields not too wide */
+  width: 100%;
+  margin: 0 auto;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+/* Picture upload area */
+.picture-group {
+  text-align: center;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+body.dark-mode .picture-group {
+  border-bottom-color: #475569;
+}
+
+.current-picture {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 1.25rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid white;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  background: #f1f5f9;
+}
+
+body.dark-mode .current-picture {
+  border-color: #334155;
+  background: #1e293b;
+}
+
+.current-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.current-picture.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #64748b;
+}
+
+.file-upload-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.file-upload-btn {
+  padding: 0.7rem 1.5rem;
+  background: var(--primary);
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.file-upload-btn:hover {
+  background: var(--primary-hover);
+}
+
+.file-name {
+  color: var(--muted);
+  font-size: 0.95rem;
+  max-width: 280px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+textarea {
+  padding: 0.9rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1.02rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+body.dark-mode input,
+body.dark-mode textarea {
+  background: #1e293b;
+  color: #e5e7eb;
+  border-color: #475569;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* Tips card */
+.profile-card.stats {
+  padding: 2rem;
+  height: fit-content;
+}
+
+.tips-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tips-list li {
+  margin: 1rem 0;
+  padding-left: 1.5em;
+  position: relative;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+body.dark-mode .tips-list li {
+  color: var(--muted-dark);
+}
+
+.tips-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-size: 1.4rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .profile-container {
+    grid-template-columns: 1fr;
+    max-width: 800px;
+    margin: 2rem auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1.25rem 1rem;
+  }
+
+  .profile-container {
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+  }
+
+  .profile-card.main {
+    padding: 1.75rem;
+  }
+
+  .edit-form {
+    gap: 1.5rem;
+  }
+
+  .current-picture {
+    width: 130px;
+    height: 130px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card.main,
+  .profile-card.stats {
+    padding: 1.5rem;
+  }
+
+  .current-picture {
+    width: 120px;
+    height: 120px;
+  }
+
+  .file-upload-wrapper {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .file-upload-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
